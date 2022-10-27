@@ -14,6 +14,15 @@ public class Ass2 {
                 int timeQuantum = 0;
                 String UserFirst = "";
                 int numberOfProccessesFirstUser  =0;
+                int processOneArrivalTime = 0;
+                int processOneExecutionTime =0;
+                int processTwoArrivalTime = 0;
+                int processTwoExecutionTime =0;
+
+                String UserSecond = "";
+                int numberOfProcessesSecondUser = 0;
+                int arrivalTimeUserBProcess = 0;
+                int executionTimeUserBProcess = 0;
 
                 System.out.println(line);
                 timeQuantum = Integer.parseInt(line);
@@ -22,8 +31,22 @@ public class Ass2 {
                 UserFirst = line;
                 line = reader.readLine();
                 numberOfProccessesFirstUser = Integer.parseInt(line);
-
-
+                line = reader.readLine();
+                processOneArrivalTime = Integer.parseInt(line);
+                line = reader.readLine();
+                processOneExecutionTime = Integer.parseInt(line);
+                line = reader.readLine();
+                processTwoArrivalTime = Integer.parseInt(line);
+                line = reader.readLine();
+                processTwoExecutionTime = Integer.parseInt(line);
+                line = reader.readLine();
+                UserSecond = line;
+                line = reader.readLine();
+                numberOfProcessesSecondUser = Integer.parseInt(line);
+                line = reader.readLine();
+                arrivalTimeUserBProcess = Integer.parseInt(line);
+                line = reader.readLine();
+                executionTimeUserBProcess = Integer.parseInt(line);
             }
             reader.close();
         } catch (IOException e) {
