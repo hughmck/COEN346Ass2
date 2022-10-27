@@ -52,5 +52,11 @@ public class Ass2 {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        FairShareScheduler fairShareScheduler = new FairShareScheduler();
+
+
+
+
     }
 }
