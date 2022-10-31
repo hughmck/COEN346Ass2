@@ -24,7 +24,6 @@ public class Ass2 {
                 int arrivalTimeUserBProcess = 0;
                 int executionTimeUserBProcess = 0;
 
-                System.out.println(line);
                 timeQuantum = Integer.parseInt(line);
                 // read next line
                 line = reader.readLine();
@@ -54,6 +53,8 @@ public class Ass2 {
         }
 
         FairShareScheduler fairShareScheduler = new FairShareScheduler();
+
+        fairShareScheduler.clock();
 
 
 
