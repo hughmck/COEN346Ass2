@@ -7,7 +7,7 @@ public class FairShareScheduler {
         timeQuantum = 0;
         UserID1 = "";
 
-        
+
 
     }
 
