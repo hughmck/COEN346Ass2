@@ -11,6 +11,33 @@ public class FairShareScheduler extends Thread {
 
     }
 
+    public void firstUserProcesses(int timeQuantum, int NumberOfProcessesForFirstUser, int processOneArrivalTime, int processOneExecTime,
+                                   int processTwoArrivalTime, int processTwoExecTime){
+
+        int processNumber = NumberOfProcessesForFirstUser;
+
+        int timeQuantumInitialization = timeQuantum;
+
+        int timeProcess1 = processOneExecTime;
+
+        int arrivalProcessOne = processOneArrivalTime;
+
+        int arrivalProcessTwo = processTwoArrivalTime;
+
+        int execProcessOne = processOneExecTime;
+
+        int execProcessTwo = processTwoExecTime;
+
+        while(true){
+            int fairShare = processNumber/timeQuantumInitialization;
+
+            for(fairShare)
+
+
+        }
+
+
+    }
     public void clock(){
         int clock = 0;
         while(true){
