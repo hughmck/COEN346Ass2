@@ -29,5 +29,6 @@ public class Driver {
                 processes.add(new UserProcess(userName,readyTime,processingTime));
             }
         }
+
     }
 }
