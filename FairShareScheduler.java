@@ -2,8 +2,6 @@ import java.util.ArrayList;
 
 public class FairShareScheduler extends Thread {
 
-
-
     public int quantumTime;
 
     public ArrayList<String> userNames;
@@ -44,21 +42,22 @@ public class FairShareScheduler extends Thread {
         userProcess.start(); //begin execution of left thread
 
     }
-    public void run(){
+    public void run() {
 
-        System.out.println("Thread " + this.getId() + " is starting " + arrayToString(array)); //outputing the thread ID and its current segment of the array its assigned to
-
-        UserProcess userProcess = new UserProcess(leftHalf); //need to create an object which user process acts on
+        UserProcess userProcess = new UserProcess(newProcess()); //need to create an object which user process acts on. need a process function
         userProcess.start(); //begin execution of left thread
-        try
-        {
-            userProcess.join(); //trying to merge once both threads are done. Can't merge if one thread is still executing
-            UserProcess(array, x , y); //Merging the two array segments
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        System.out.println("Process " + this.user + this.processId + ", started");
+        while (this.burstTime > 0) {
+            try {
+                this.burstTime--;
+                clock();
+            } catch (InterruptedException e) {
+                System.out.println("Process " + this.user + this.processId + ", paused");
+            }
+
         }
-        System.out.println("Thread " + this.getId() + " is finished " + arrayToString(array)); //ouputs that the thread is done and what the worked on segment of the array looks like
+        System.out.println("Process " + this.user + this.processId + ", resumed");
     }
 
 
