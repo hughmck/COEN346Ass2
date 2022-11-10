@@ -12,12 +12,11 @@ public class UserProcess extends Thread {
     private boolean readyState;
 
     private UserProcess process;
-
     Thread thread;
 
-    UserProcess(String userName, int readyTime, int processingTime){
+    UserProcess(String userName, int readyTime, int processingTime){ //how do we get the variables from the input file into here?
         this.process = process;
-        this.userNames = userNames;
+        this.userName = userName;
         this.enteredReadyQueue = enteredReadyQueue;
         this.processExecutionTime = processExecutionTime;
         this.running = false;
