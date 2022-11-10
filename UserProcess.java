@@ -5,11 +5,6 @@ public class UserProcess extends Thread {
     String userName;
     int readyTime;
     int processingTime;
-    
-    private int[] array;
-    public UserProcess(int[] array) {
-        this.array = array;
-    }
 
     UserProcess(String userName, int readyTime, int processingTime, int processID, boolean processStatus){
         this.userName = userName;
