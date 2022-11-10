@@ -6,14 +6,22 @@ public class UserProcess extends Thread {
     int readyTime;
     int processingTime;
 
-    UserProcess(String userName, int readyTime, int processingTime, int processID, boolean processStatus){
-        this.userName = userName;
-        this.readyTime= readyTime;
-        this.processingTime=processingTime;
-        this.processID=processID;
-        this.processStatus=processStatus;
+    public int processExecutionTime;
+    private boolean running;
+    private boolean enteredReadyQueue;
+    private boolean readyState;
 
+    private UserProcess process;
 
+    Thread thread;
+
+    UserProcess(String userName, int readyTime, int processingTime){
+        this.process = process;
+        this.userNames = userNames;
+        this.enteredReadyQueue = enteredReadyQueue;
+        this.processExecutionTime = processExecutionTime;
+        this.running = false;
+        this.thread = new Thread();
     }
 }
 

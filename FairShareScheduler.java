@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 
 public class FairShareScheduler extends Thread {
-
     public int quantumTime;
 
     public ArrayList<String> userNames;
@@ -10,17 +9,11 @@ public class FairShareScheduler extends Thread {
 
     public int clock;
 
-    private boolean running;
-    private boolean enteredReadyQueue;
-    private boolean readyState;
+    public boolean running;
 
-    private UserProcess process;
+    public boolean enteredReadyQueue;
 
-
-    public UserProcess getProcess() {
-        return process;
-    }
-
+    public boolean readyState;
     public boolean isRunning() {
         return running;
     }
@@ -32,30 +25,17 @@ public class FairShareScheduler extends Thread {
     public boolean readyToRun() {
         return readyState;
     }
-
-    public void setScheduler(Scheduler scheduler,Thread schedulerThread) {
-        this.scheduler = scheduler;
-        this.schedulerThread = schedulerThread;
-    }
-    public void newProcess(){
-        UserProcess userProcess = new UserProcess(leftHalf); //need to create an object which user process acts on
-        userProcess.start(); //begin execution of left thread
-
-    }
     public void run() {
 
-        UserProcess userProcess = new UserProcess(newProcess()); //need to create an object which user process acts on. need a process function
+        int userTime = this.quantumTime/userNames.size(); //gives the amount of fair share time to each
+        
+        UserProcess userProcess = new UserProcess(process.userName, process.readyTime, process.processingTime); //need to create an object which user process acts on. need a process function
         userProcess.start(); //begin execution of left thread
 
         System.out.println("Process " + this.userNames + this.process + ", started");
-        while (this.burstTime > 0) {
-            try {
-                this.burstTime--;
-                clock();
-            } catch (InterruptedException e) {
-                System.out.println("Process " + this.userNames + this.process + ", paused");
-            }
-
+        while (this.processExecutionTime > 0) {
+            this.processExecutionTime--; //decrements the process execution time until it is complete
+            clock();
         }
         System.out.println("Process " + this.userNames + this.process + ", resumed");
     }
