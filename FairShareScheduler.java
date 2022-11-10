@@ -47,17 +47,17 @@ public class FairShareScheduler extends Thread {
         UserProcess userProcess = new UserProcess(newProcess()); //need to create an object which user process acts on. need a process function
         userProcess.start(); //begin execution of left thread
 
-        System.out.println("Process " + this.user + this.processId + ", started");
+        System.out.println("Process " + this.userNames + this.process + ", started");
         while (this.burstTime > 0) {
             try {
                 this.burstTime--;
                 clock();
             } catch (InterruptedException e) {
-                System.out.println("Process " + this.user + this.processId + ", paused");
+                System.out.println("Process " + this.userNames + this.process + ", paused");
             }
 
         }
-        System.out.println("Process " + this.user + this.processId + ", resumed");
+        System.out.println("Process " + this.userNames + this.process + ", resumed");
     }
 
 
