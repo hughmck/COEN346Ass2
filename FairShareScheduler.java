@@ -1,6 +1,22 @@
 import java.util.ArrayList;
 
 public class FairShareScheduler extends Thread {
+
+    int processID;
+
+    boolean processStatus; //has the process started yet? true or false
+    String userName;
+    int readyTime;
+    int processingTime;
+
+    public int processExecutionTime;
+    private boolean running;
+    private boolean enteredReadyQueue;
+    private boolean readyState;
+
+    private UserProcess process;
+
+    Thread thread;
     public int quantumTime;
 
     public ArrayList<String> userNames;
@@ -9,11 +25,6 @@ public class FairShareScheduler extends Thread {
 
     public int clock;
 
-    public boolean running;
-
-    public boolean enteredReadyQueue;
-
-    public boolean readyState;
     public boolean isRunning() {
         return running;
     }
@@ -28,7 +39,7 @@ public class FairShareScheduler extends Thread {
     public void run() {
 
         int userTime = this.quantumTime/userNames.size(); //gives the amount of fair share time to each
-        
+
         UserProcess userProcess = new UserProcess(process.userName, process.readyTime, process.processingTime); //need to create an object which user process acts on. need a process function
         userProcess.start(); //begin execution of left thread
 
