@@ -5,9 +5,7 @@ public class UserProcess extends Thread {
     String userName;
     int readyTime;
     int processingTime;
-
-
-
+    
     private int[] array;
     public UserProcess(int[] array) {
         this.array = array;
@@ -22,6 +20,5 @@ public class UserProcess extends Thread {
 
 
     }
-
 }
 

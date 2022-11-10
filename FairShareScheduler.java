@@ -1,15 +1,14 @@
+import java.util.ArrayList;
+
 public class FairShareScheduler {
 
-    public void startCPU (int timeQuantum, String UserID1, int NumberOfProcessesForFirstUser, int processOneArrivalTime, int processOneExecTime,
-                          int processTwoArrivalTime, int processTwoExecTime, String UserID2, int numberOfProcessesForSecondUser,
-                          int arrivalTimeForUserBProcess, int executionTimeForUserBProcess){
+    public int quantumTime;
 
-        timeQuantum = 0;
-        UserID1 = "";
+    public ArrayList<String> userNames;
 
-
-    }
+    public ArrayList<String> processes;
     public void run(){
+
         System.out.println("Thread " + this.getId() + " is starting " + arrayToString(array)); //outputing the thread ID and its current segment of the array its assigned to
         int inputLength = array.length;
 
@@ -32,15 +31,13 @@ public class FairShareScheduler {
         int clock = 0;
         while(true){
         try {
-        Thread.sleep(1000); //1000 milliseconds per second, therefore it iterates every second
-        clock++;
-        System.out.println("second");
-        } catch (InterruptedException e) {
-        throw new RuntimeException(e);
+            Thread.sleep(1000); //1000 milliseconds per second, therefore it iterates every second
+            clock++;
+            System.out.println("second");
         }
+        catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
-        }
-
-
-
-        }
+    }
+}

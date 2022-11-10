@@ -26,7 +26,7 @@ public class Driver {
             for(int i=0;i<numOfProcesses;i++){
                 int readyTime= reader.nextInt();
                 int processingTime = reader.nextInt();
-                processes.add(new UserProcess(userName,readyTime,processingTime));
+                processes.add(new UserProcess(userName,readyTime,processingTime, processID, processStatus)); //im still a bit confused with the list
             }
         }
 
