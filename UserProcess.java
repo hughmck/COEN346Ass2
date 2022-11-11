@@ -1,4 +1,5 @@
-public class UserProcess extends Thread {
+public class UserProcess {
+//        extends Thread {
     int processID;
 
     boolean processStatus; //has the process started yet? true or false
@@ -6,21 +7,57 @@ public class UserProcess extends Thread {
     int readyTime;
     int processingTime;
 
+    String processName;
     public int processExecutionTime;
     private boolean running;
     private boolean enteredReadyQueue;
     private boolean readyState;
 
-    private UserProcess process;
-    Thread thread;
+    String phase;
 
-    UserProcess(String userName, int readyTime, int processingTime){ //how do we get the variables from the input file into here?
-        this.process = process;
+//    private UserProcess process;
+//    Thread thread;
+
+    String getUserName()
+    {
+        return userName;
+    }
+
+    String getProcessName()
+    {
+        return userName;
+    }
+    int getReadyTime()
+    {
+        return readyTime;
+    }
+
+    int getProcessingTime()
+    {
+        return processingTime;
+    }
+
+    String setPhase(String newPhase)
+    {
+        phase = newPhase;
+        return phase;
+    }
+
+    UserProcess(String userName, String processName, int readyTime, int processingTime, String phase){ //how do we get the variables from the input file into here?
+        this.processName  = processName;
         this.userName = userName;
+        this.readyTime = readyTime;
+        this.processingTime = processingTime;
         this.enteredReadyQueue = enteredReadyQueue;
         this.processExecutionTime = processExecutionTime;
         this.running = false;
-        this.thread = new Thread();
+        this.phase = phase;
+//        this.thread = new Thread();
+    }
+
+    void getDetails()
+    {
+        System.out.println("Time " + FairShareScheduler.clock + ", " + userName + ", " + processName + ", " + readyTime + ", " + processingTime + ", " + phase);
     }
 }
 

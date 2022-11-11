@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class Driver {
+    public static int quantum_size;
     public static void main(String[] args){
         Scanner reader = null;
         int numOfUsers = 0;
@@ -16,19 +17,27 @@ public class Driver {
         catch (IOException e) {
             e.printStackTrace();
         }
-        int quantum_size = reader.nextInt();
+        quantum_size = reader.nextInt();
+        System.out.println(quantum_size);
 
         while(reader.hasNext()){
-            String userName = reader.next();
+            String userName = "User " +reader.next();
             numOfUsers++;
             int numOfProcesses = reader.nextInt();
 
             for(int i=0;i<numOfProcesses;i++){
+                String processName = "Process " + i;
                 int readyTime= reader.nextInt();
                 int processingTime = reader.nextInt();
-                processes.add(new UserProcess(userName,readyTime,processingTime)); //im still a bit confused with the list
+                processes.add(new UserProcess(userName, processName, readyTime, processingTime, "Waiting"));//im still a bit confused with the list
+
             }
         }
-
+        for(int j=0;j<processes.size();j++)
+        {
+            UserProcess nextProcess  = processes.get(j);
+            FairShareScheduler nextSchedule = new FairShareScheduler(nextProcess);
+            nextSchedule.start();
+        }
     }
 }
