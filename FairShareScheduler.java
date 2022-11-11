@@ -48,7 +48,7 @@ public class FairShareScheduler extends Thread {
             nextProcess.setPhase("Started");
             nextProcess.getDetails();
 
-            this.allowedExecutionTime = Driver.quantum_size;
+            this.allowedExecutionTime = Driver.quantum_size; //will need to divide quantum like they said in the assignment but still working on this for now
             this.remainingTime = nextProcess.getProcessingTime();
 
 
@@ -63,10 +63,10 @@ public class FairShareScheduler extends Thread {
                     this.allowedExecutionTime--;
                     clock++;
                 }
-                Driver.processes.add(nextProcess);
+                Driver.processes.add(nextProcess); //if there is no more quantum time left send it back to the arrayList
                 System.out.println("Added to Queue");
             }
-            else
+            else // if remaining program time is zero (program is done)
             {
                 nextProcess.setProcessingTime(remainingTime);
                 nextProcess.setPhase("Finished");

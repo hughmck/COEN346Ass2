@@ -36,14 +36,14 @@ public class Driver {
         for(int j=0;j<processes.size();j++)
         {
             UserProcess nextProcess  = processes.get(j);
-            if(nextProcess.getReadyTime() <= FairShareScheduler.clock)
+            if(nextProcess.getReadyTime() <= FairShareScheduler.clock) //checks if the program is ready. of the arrival time is bigger than the current time it will send to else
             {
                 FairShareScheduler nextSchedule = new FairShareScheduler(nextProcess);
                 nextSchedule.start();
             }
             else
             {
-                processes.add(nextProcess);
+                processes.add(nextProcess); // adds the not ready program back into the loop
             }
         }
     }
