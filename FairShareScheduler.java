@@ -47,8 +47,16 @@ public class FairShareScheduler extends Thread {
 
             nextProcess.setPhase("Started");
             nextProcess.getDetails();
+            String currentUser = nextProcess.getUserName();
+            int thisUsersProcesses = Driver.variables.get(currentUser);
+            System.out.println(currentUser + " has " + thisUsersProcesses);
 
-            this.allowedExecutionTime = Driver.quantum_size; //will need to divide quantum like they said in the assignment but still working on this for now
+
+            int quantumPerUser = Driver.quantum_size / Driver.numOfUsers;
+            int quantumPerProcess = quantumPerUser/ thisUsersProcesses;
+
+            this.allowedExecutionTime = quantumPerProcess; //will need to divide quantum like they said in the assignment but still working on this for now
+            System.out.println("This process has " + allowedExecutionTime + "s of allowed time");
             this.remainingTime = nextProcess.getProcessingTime();
 
 

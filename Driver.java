@@ -1,14 +1,19 @@
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 import java.io.File;
 import java.io.IOException;
 
 public class Driver {
     public static int quantum_size;
+    public static int numOfUsers = 0;
     public static ArrayList<UserProcess> processes = new ArrayList<UserProcess>();
+    public static int numOfProcesses;
+    static Map<String,Integer> variables = new HashMap<String,Integer>();
     public static void main(String[] args){
         Scanner reader = null;
-        int numOfUsers = 0;
+
 
 
         try {
@@ -23,7 +28,9 @@ public class Driver {
         while(reader.hasNext()){
             String userName = "User " +reader.next();
             numOfUsers++;
-            int numOfProcesses = reader.nextInt();
+            numOfProcesses = reader.nextInt();
+
+            variables.put(userName, numOfProcesses);
 
             for(int i=0;i<numOfProcesses;i++){
                 String processName = "Process " + i;
@@ -33,6 +40,11 @@ public class Driver {
 
             }
         }
+
+//        for (Map.Entry<String, Integer> entry : variables.entrySet()) {
+//            System.out.println(entry.getKey() + ":" + entry.getValue().toString());
+//        }
+
         for(int j=0;j<processes.size();j++)
         {
             UserProcess nextProcess  = processes.get(j);
