@@ -1,5 +1,5 @@
 public class UserProcess {
-//        extends Thread {
+    //        extends Thread {
     int processID;
 
     boolean processStatus; //has the process started yet? true or false
@@ -18,29 +18,31 @@ public class UserProcess {
 //    private UserProcess process;
 //    Thread thread;
 
-    String getUserName()
-    {
+    String getUserName() {
         return userName;
     }
 
-    String getProcessName()
-    {
+    String getProcessName() {
         return userName;
     }
-    int getReadyTime()
-    {
+
+    int getReadyTime() {
         return readyTime;
     }
 
-    int getProcessingTime()
-    {
+    int getProcessingTime() {
         return processingTime;
     }
 
-    String setPhase(String newPhase)
-    {
+    String setPhase(String newPhase) {
         phase = newPhase;
         return phase;
+    }
+
+    int setProcessingTime(int processExecutionTime)
+    {
+        processingTime = processExecutionTime;
+        return processingTime;
     }
 
     UserProcess(String userName, String processName, int readyTime, int processingTime, String phase){ //how do we get the variables from the input file into here?
@@ -52,12 +54,13 @@ public class UserProcess {
         this.processExecutionTime = processExecutionTime;
         this.running = false;
         this.phase = phase;
+
 //        this.thread = new Thread();
     }
 
     void getDetails()
     {
-        System.out.println("Time " + FairShareScheduler.clock + ", " + userName + ", " + processName + ", " + readyTime + ", " + processingTime + ", " + phase);
+        System.out.println("Time " + FairShareScheduler.clock + ", " + userName + ", " + processName + ", Ready Time: " + readyTime + ", Remaining Time " + processingTime + ", " + phase);
     }
 }
 

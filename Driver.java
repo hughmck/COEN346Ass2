@@ -5,10 +5,11 @@ import java.io.IOException;
 
 public class Driver {
     public static int quantum_size;
+    public static ArrayList<UserProcess> processes = new ArrayList<UserProcess>();
     public static void main(String[] args){
         Scanner reader = null;
         int numOfUsers = 0;
-        ArrayList<UserProcess> processes = new ArrayList<UserProcess>();
+
 
         try {
             reader = new Scanner(new File(
@@ -18,7 +19,6 @@ public class Driver {
             e.printStackTrace();
         }
         quantum_size = reader.nextInt();
-        System.out.println(quantum_size);
 
         while(reader.hasNext()){
             String userName = "User " +reader.next();
@@ -29,15 +29,22 @@ public class Driver {
                 String processName = "Process " + i;
                 int readyTime= reader.nextInt();
                 int processingTime = reader.nextInt();
-                processes.add(new UserProcess(userName, processName, readyTime, processingTime, "Waiting"));//im still a bit confused with the list
+                processes.add(new UserProcess(userName, processName, readyTime, processingTime, "Waiting"));
 
             }
         }
         for(int j=0;j<processes.size();j++)
         {
             UserProcess nextProcess  = processes.get(j);
-            FairShareScheduler nextSchedule = new FairShareScheduler(nextProcess);
-            nextSchedule.start();
+            if(nextProcess.getReadyTime() <= FairShareScheduler.clock)
+            {
+                FairShareScheduler nextSchedule = new FairShareScheduler(nextProcess);
+                nextSchedule.start();
+            }
+            else
+            {
+                processes.add(nextProcess);
+            }
         }
     }
 }
