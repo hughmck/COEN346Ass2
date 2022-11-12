@@ -1,11 +1,11 @@
-import java.util.ArrayList;
+import java.util.*;
 
 public class FairShareScheduler extends Thread {
 
-    UserProcess nextProcess;
-    public FairShareScheduler(UserProcess nextProcess)
+    public static ArrayList<UserProcess> scheduleProcesses = new ArrayList<UserProcess>();
+    public FairShareScheduler(ArrayList<UserProcess> scheduleProcesses)
     {
-        this.nextProcess = nextProcess;
+        this.scheduleProcesses = scheduleProcesses;
     }
 
 //    int processID;
@@ -15,8 +15,7 @@ public class FairShareScheduler extends Thread {
 //    int readyTime;
 //    int processingTime;
 //
-    public int allowedExecutionTime;
-    int remainingTime;
+
 //    private boolean running;
 //    private boolean enteredReadyQueue;
 //    private boolean readyState;
@@ -30,7 +29,7 @@ public class FairShareScheduler extends Thread {
 //
 //    public ArrayList<String> processes;
 //
-    public static int clock = 1;
+
 //
 //    public boolean isRunning() {
 //        return running;
@@ -43,57 +42,30 @@ public class FairShareScheduler extends Thread {
 //    public boolean readyToRun() {
 //        return readyState;
 //    }
+
+    public static Queue<UserProcess> q = new LinkedList<>();
+    public static int clock;
+
     public void run() {
-
-            nextProcess.setPhase("Started");
-            nextProcess.getDetails();
-            String currentUser = nextProcess.getUserName();
-            int thisUsersProcesses = Driver.variables.get(currentUser);
-            System.out.println(currentUser + " has " + thisUsersProcesses);
-
-
-            int quantumPerUser = Driver.quantum_size / Driver.numOfUsers;
-            int quantumPerProcess = quantumPerUser/ thisUsersProcesses;
-
-            this.allowedExecutionTime = quantumPerProcess; //will need to divide quantum like they said in the assignment but still working on this for now
-            System.out.println("This process has " + allowedExecutionTime + "s of allowed time");
-            this.remainingTime = nextProcess.getProcessingTime();
-
-
-            if(this.remainingTime > 0)
+        for (clock = 1; clock < 17; clock ++)
+            for(int j=0; j<scheduleProcesses.size();j++)
             {
-                while(allowedExecutionTime != 0)
+            UserProcess nextProcess  = scheduleProcesses.get(j);
+            if(nextProcess.getReadyTime() == clock) //checks if the program is ready. of the arrival time is bigger than the current time it will send to else
                 {
-                    nextProcess.setProcessingTime(remainingTime);
-                    nextProcess.setPhase("Resumed");
-                    nextProcess.getDetails();
-                    this.remainingTime--;//decrements the process execution time until it is complete
-                    this.allowedExecutionTime--;
-                    clock++;
+                    q.add(nextProcess);
+                    User temp = null;
+                    if(Driver.users.contains(nextProcess.userName))
+                    {
+                        Driver.users.get(j).
+                    }
+                    else
+                    {
+                         temp = new User(nextProcess.getUserName(), 1);
+                    }
+                    UserProcess nextSchedule = new UserProcess(q.peek());
+                    nextSchedule.start();
                 }
-                Driver.processes.add(nextProcess); //if there is no more quantum time left send it back to the arrayList
-                System.out.println("Added to Queue");
-            }
-            else // if remaining program time is zero (program is done)
-            {
-                nextProcess.setProcessingTime(remainingTime);
-                nextProcess.setPhase("Finished");
-                nextProcess.getDetails();
             }
     }
-
-
-//    public void clock(){ //creating a clock function which counts the seconds
-//        clock = 0;
-//        while(true){
-//        try {
-//            Thread.sleep(1000); //1000 milliseconds per second, therefore it iterates every second
-//            clock++;
-//            System.out.println("second");
-//        }
-//        catch (InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
-//        }
-//    }
 }

@@ -7,15 +7,13 @@ import java.io.IOException;
 
 public class Driver {
     public static int quantum_size;
-    public static int numOfUsers = 0;
     public static ArrayList<UserProcess> processes = new ArrayList<UserProcess>();
-    public static int numOfProcesses;
-    static Map<String,Integer> variables = new HashMap<String,Integer>();
+    public static int numOfInputProcesses;
+
+    public static ArrayList<String> users = new ArrayList<String>();
+
     public static void main(String[] args){
         Scanner reader = null;
-
-
-
         try {
             reader = new Scanner(new File(
                     "input.txt"));
@@ -27,12 +25,9 @@ public class Driver {
 
         while(reader.hasNext()){
             String userName = "User " +reader.next();
-            numOfUsers++;
-            numOfProcesses = reader.nextInt();
+            numOfInputProcesses = reader.nextInt();
 
-            variables.put(userName, numOfProcesses);
-
-            for(int i=0;i<numOfProcesses;i++){
+            for(int i=0;i<numOfInputProcesses;i++){
                 String processName = "Process " + i;
                 int readyTime= reader.nextInt();
                 int processingTime = reader.nextInt();
@@ -41,22 +36,7 @@ public class Driver {
             }
         }
 
-//        for (Map.Entry<String, Integer> entry : variables.entrySet()) {
-//            System.out.println(entry.getKey() + ":" + entry.getValue().toString());
-//        }
-
-        for(int j=0;j<processes.size();j++)
-        {
-            UserProcess nextProcess  = processes.get(j);
-            if(nextProcess.getReadyTime() <= FairShareScheduler.clock) //checks if the program is ready. of the arrival time is bigger than the current time it will send to else
-            {
-                FairShareScheduler nextSchedule = new FairShareScheduler(nextProcess);
-                nextSchedule.start();
-            }
-            else
-            {
-                processes.add(nextProcess); // adds the not ready program back into the loop
-            }
-        }
+        FairShareScheduler arrayOfProcesses = new FairShareScheduler (processes);
+        arrayOfProcesses.start();
     }
 }

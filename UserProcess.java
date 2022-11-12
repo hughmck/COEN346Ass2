@@ -1,22 +1,25 @@
-public class UserProcess {
-    //        extends Thread {
+public class UserProcess extends Thread {
     int processID;
 
-    boolean processStatus; //has the process started yet? true or false
+    UserProcess nextProcess;
+
+    public UserProcess(UserProcess nextProcess)
+    {
+        this.nextProcess = nextProcess;
+    }
+
     String userName;
     int readyTime;
     int processingTime;
 
+    public int allowedExecutionTime;
+    int remainingTime;
+
     String processName;
     public int processExecutionTime;
-    private boolean running;
-    private boolean enteredReadyQueue;
-    private boolean readyState;
+    private boolean isComplete;
 
-    String phase;
-
-//    private UserProcess process;
-//    Thread thread;
+    String processStatus;
 
     String getUserName() {
         return userName;
@@ -34,33 +37,66 @@ public class UserProcess {
         return processingTime;
     }
 
-    String setPhase(String newPhase) {
-        phase = newPhase;
-        return phase;
+    void setProcessStatus(String newPhase) {
+        processStatus = newPhase;
     }
 
-    int setProcessingTime(int processExecutionTime)
+    void setProcessingTime(int processExecutionTime)
     {
         processingTime = processExecutionTime;
-        return processingTime;
     }
 
-    UserProcess(String userName, String processName, int readyTime, int processingTime, String phase){ //how do we get the variables from the input file into here?
+    UserProcess(String userName, String processName, int readyTime, int processingTime, String processStatus){ //how do we get the variables from the input file into here?
         this.processName  = processName;
         this.userName = userName;
         this.readyTime = readyTime;
         this.processingTime = processingTime;
-        this.enteredReadyQueue = enteredReadyQueue;
-        this.processExecutionTime = processExecutionTime;
-        this.running = false;
-        this.phase = phase;
+        this.processStatus = processStatus;
 
 //        this.thread = new Thread();
     }
 
+    public void run()
+    {
+        nextProcess.setProcessStatus("Started");
+        nextProcess.getDetails();
+        String currentUser = nextProcess.getUserName();
+        int thisUsersProcesses = FairShareScheduler.variables.get(currentUser);
+
+
+        int quantumPerUser = Driver.quantum_size / FairShareScheduler.variables.size();
+        int quantumPerProcess = quantumPerUser/ thisUsersProcesses;
+
+        this.allowedExecutionTime = quantumPerProcess; //will need to divide quantum like they said in the assignment but still working on this for now
+        System.out.println("This process has " + allowedExecutionTime + "s of allowed time");
+        this.remainingTime = nextProcess.getProcessingTime();
+
+
+        if(this.remainingTime > 0)
+        {
+            while(allowedExecutionTime != 0)
+            {
+                nextProcess.setProcessingTime(remainingTime);
+                nextProcess.setProcessStatus("Resumed");
+                nextProcess.getDetails();
+                this.remainingTime--;//decrements the process execution time until it is complete
+                this.allowedExecutionTime--;
+                FairShareScheduler.clock++;
+            }
+            FairShareScheduler.scheduleProcesses.add(nextProcess); //if there is no more quantum time left send it back to the arrayList
+            System.out.println("Added to Queue");
+        }
+        else // if remaining program time is zero (program is done)
+        {
+            nextProcess.setProcessingTime(remainingTime);
+            nextProcess.setProcessStatus("Finished");
+            nextProcess.getDetails();
+        }
+    }
+
     void getDetails()
     {
-        System.out.println("Time " + FairShareScheduler.clock + ", " + userName + ", " + processName + ", Ready Time: " + readyTime + ", Remaining Time " + processingTime + ", " + phase);
+        System.out.println("Time " + FairShareScheduler.clock + ", " + userName + ", " + processName + ", Ready Time: " + readyTime + ", Remaining Time " + processingTime + ", " + processStatus);
     }
 }
 
