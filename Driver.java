@@ -32,12 +32,11 @@ public class Driver {
                 int readyTime= reader.nextInt();
                 int processingTime = reader.nextInt();
                 processes.add(new UserProcess(userName, processName, readyTime, processingTime, "Waiting", false));
-
             }
         }
 
-        FairShareScheduler arrayOfProcesses = new FairShareScheduler (processes);
-        arrayOfProcesses.start();
+        FairShareScheduler arrayOfProcesses = new FairShareScheduler (processes); //assigns a thread to this arrayList
+        arrayOfProcesses.start(); //starts the thread
 
         for(int i = 0; i < Driver.users.size(); i++) {
             System.out.print(Driver.users.get(i).userName);

@@ -58,20 +58,20 @@ public class UserProcess extends Thread {
     public void run() {
         nextProcess.setProcessStatus("Started");
         nextProcess.getDetails();
-        User temp = getUser(nextProcess.userName);
-        if (temp.activeProcesses != 0)
+        User temp = getUser(nextProcess.userName); // gets the User
+        if (temp.activeProcesses != 0) //check if the user has any active processes
         {
-            int quantumPerUser = Driver.quantum_size;
-            int quantumPerProcess = quantumPerUser / temp.activeProcesses;
+            int quantumPerUser = Driver.quantum_size/ Driver.users.size(); //divides the quantum by the number of users
+            int quantumPerProcess = quantumPerUser / temp.activeProcesses; // divides the quantumPerUser by the number of activeProcesses for that specific user
             this.allowedExecutionTime = quantumPerProcess; //will need to divide quantum like they said in the assignment but still working on this for now
-            if(nextProcess.getProcessingTime() > 0)
+            if(nextProcess.getProcessingTime() > 0) //as long as the process has time left
             {
-                while(allowedExecutionTime != 0)
+                while(allowedExecutionTime != 0) //making sure it hasnt gone over its alloted time
                 {
+                    FairShareScheduler.clock++;
                     nextProcess.setProcessStatus("Resumed");
                     nextProcess.setProcessingTime();//decrements the process execution time until it is complete
                     this.allowedExecutionTime--;
-                    FairShareScheduler.clock++;
                     nextProcess.getDetails();
                 }
                 FairShareScheduler.q.add(nextProcess); //if there is no more quantum time left send it back to the arrayList
@@ -80,14 +80,11 @@ public class UserProcess extends Thread {
             {
                 nextProcess.isComplete = true;
                 temp.activeProcesses--;
+                FairShareScheduler.q.remove(nextProcess);
                 nextProcess.setProcessStatus("Finished");
                 nextProcess.getDetails();
             }
         }
-//        else
-//        {
-//            Driver.users.remove(temp);
-//        }
     }
 
     void getDetails()
@@ -104,7 +101,6 @@ public class UserProcess extends Thread {
             if(username == temp.userName)
             {
                 return temp;
-
             }
         }
         return null;
