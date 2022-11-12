@@ -41,63 +41,73 @@ public class UserProcess extends Thread {
         processStatus = newPhase;
     }
 
-    void setProcessingTime(int processExecutionTime)
+    void setProcessingTime()
     {
-        processingTime = processExecutionTime;
+        --processingTime;
     }
 
-    UserProcess(String userName, String processName, int readyTime, int processingTime, String processStatus){ //how do we get the variables from the input file into here?
+    UserProcess(String userName, String processName, int readyTime, int processingTime, String processStatus, boolean isComplete){ //how do we get the variables from the input file into here?
         this.processName  = processName;
         this.userName = userName;
         this.readyTime = readyTime;
         this.processingTime = processingTime;
         this.processStatus = processStatus;
-
-//        this.thread = new Thread();
+        this.isComplete = false;
     }
 
-    public void run()
-    {
+    public void run() {
         nextProcess.setProcessStatus("Started");
         nextProcess.getDetails();
-        String currentUser = nextProcess.getUserName();
-//        int thisUsersProcesses = FairShareScheduler.variables.get(currentUser);
-//
-//
-//        int quantumPerUser = Driver.quantum_size / FairShareScheduler.variables.size();
-      int quantumPerProcess =  0;
-//        quantumPerUser/ thisUsersProcesses
-
-        this.allowedExecutionTime = quantumPerProcess; //will need to divide quantum like they said in the assignment but still working on this for now
-        System.out.println("This process has " + allowedExecutionTime + "s of allowed time");
-        this.remainingTime = nextProcess.getProcessingTime();
-
-
-        if(this.remainingTime > 0)
+        User temp = getUser(nextProcess.userName);
+        if (temp.activeProcesses != 0)
         {
-            while(allowedExecutionTime != 0)
+            int quantumPerUser = Driver.quantum_size;
+            int quantumPerProcess = quantumPerUser / temp.activeProcesses;
+            this.allowedExecutionTime = quantumPerProcess; //will need to divide quantum like they said in the assignment but still working on this for now
+            if(nextProcess.getProcessingTime() > 0)
             {
-                nextProcess.setProcessingTime(remainingTime);
-                nextProcess.setProcessStatus("Resumed");
-                nextProcess.getDetails();
-                this.remainingTime--;//decrements the process execution time until it is complete
-                this.allowedExecutionTime--;
-                FairShareScheduler.clock++;
+                while(allowedExecutionTime != 0)
+                {
+                    nextProcess.setProcessStatus("Resumed");
+                    nextProcess.setProcessingTime();//decrements the process execution time until it is complete
+                    this.allowedExecutionTime--;
+                    FairShareScheduler.clock++;
+                    nextProcess.getDetails();
+                }
+                FairShareScheduler.q.add(nextProcess); //if there is no more quantum time left send it back to the arrayList
             }
-            FairShareScheduler.scheduleProcesses.add(nextProcess); //if there is no more quantum time left send it back to the arrayList
-            System.out.println("Added to Queue");
+            else // if remaining program time is zero (program is done)
+            {
+                nextProcess.isComplete = true;
+                temp.activeProcesses--;
+                nextProcess.setProcessStatus("Finished");
+                nextProcess.getDetails();
+            }
         }
-        else // if remaining program time is zero (program is done)
-        {
-            nextProcess.setProcessingTime(remainingTime);
-            nextProcess.setProcessStatus("Finished");
-            nextProcess.getDetails();
-        }
+//        else
+//        {
+//            Driver.users.remove(temp);
+//        }
     }
 
     void getDetails()
     {
         System.out.println("Time " + FairShareScheduler.clock + ", " + userName + ", " + processName + ", Ready Time: " + readyTime + ", Remaining Time " + processingTime + ", " + processStatus);
+    }
+
+    public User getUser(String username)
+    {
+        for (int i = 0; i < Driver.users.size(); i++)
+        {
+            User temp = Driver.users.get(i);
+
+            if(username == temp.userName)
+            {
+                return temp;
+
+            }
+        }
+        return null;
     }
 }
 

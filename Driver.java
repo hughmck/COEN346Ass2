@@ -31,7 +31,7 @@ public class Driver {
                 String processName = "Process " + i;
                 int readyTime= reader.nextInt();
                 int processingTime = reader.nextInt();
-                processes.add(new UserProcess(userName, processName, readyTime, processingTime, "Waiting"));
+                processes.add(new UserProcess(userName, processName, readyTime, processingTime, "Waiting", false));
 
             }
         }
