@@ -51,21 +51,45 @@ public class FairShareScheduler extends Thread {
             for(int j=0; j<scheduleProcesses.size();j++)
             {
             UserProcess nextProcess  = scheduleProcesses.get(j);
+
             if(nextProcess.getReadyTime() == clock) //checks if the program is ready. of the arrival time is bigger than the current time it will send to else
                 {
                     q.add(nextProcess);
-                    User temp = null;
-                    if(Driver.users.contains(nextProcess.userName))
+                    User temp = getUser(nextProcess.processName);
+
+                    if(temp == null)
                     {
-                        Driver.users.get(j).
+                        temp = new User(nextProcess.getUserName(), 1);
+                        System.out.println("Added a User");
                     }
                     else
                     {
-                         temp = new User(nextProcess.getUserName(), 1);
+                        temp.addActiveProcesses();
+                        System.out.println("Added a process");
                     }
+
                     UserProcess nextSchedule = new UserProcess(q.peek());
                     nextSchedule.start();
                 }
             }
+
     }
+
+    public User getUser(String username)
+    {
+        for (int i = 0; i < Driver.users.size(); i++)
+        {
+            System.out.println("In for check");
+            User temp = Driver.users.get(i);
+
+            if(username == temp.userName)
+            {
+                return temp;
+
+            }
+        }
+        return null;
+    }
+
+
 }

@@ -7,12 +7,12 @@ public class User {
         return activeProcesses;
     }
 
-    void removeActiveProcesses(String userName)
+    void removeActiveProcesses()
     {
         activeProcesses -= activeProcesses;
     }
 
-    void addActiveProcesses(String userName)
+    void addActiveProcesses()
     {
         activeProcesses += activeProcesses;
     }

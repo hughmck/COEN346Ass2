@@ -10,7 +10,7 @@ public class Driver {
     public static ArrayList<UserProcess> processes = new ArrayList<UserProcess>();
     public static int numOfInputProcesses;
 
-    public static ArrayList<String> users = new ArrayList<String>();
+    public static ArrayList<User> users = new ArrayList<User>(); //List of active users and their active processes
 
     public static void main(String[] args){
         Scanner reader = null;
@@ -38,5 +38,9 @@ public class Driver {
 
         FairShareScheduler arrayOfProcesses = new FairShareScheduler (processes);
         arrayOfProcesses.start();
+
+        for(int i = 0; i < Driver.users.size(); i++) {
+            System.out.print(Driver.users.get(i).userName);
+        }
     }
 }

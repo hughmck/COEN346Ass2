@@ -61,11 +61,12 @@ public class UserProcess extends Thread {
         nextProcess.setProcessStatus("Started");
         nextProcess.getDetails();
         String currentUser = nextProcess.getUserName();
-        int thisUsersProcesses = FairShareScheduler.variables.get(currentUser);
-
-
-        int quantumPerUser = Driver.quantum_size / FairShareScheduler.variables.size();
-        int quantumPerProcess = quantumPerUser/ thisUsersProcesses;
+//        int thisUsersProcesses = FairShareScheduler.variables.get(currentUser);
+//
+//
+//        int quantumPerUser = Driver.quantum_size / FairShareScheduler.variables.size();
+      int quantumPerProcess =  0;
+//        quantumPerUser/ thisUsersProcesses
 
         this.allowedExecutionTime = quantumPerProcess; //will need to divide quantum like they said in the assignment but still working on this for now
         System.out.println("This process has " + allowedExecutionTime + "s of allowed time");
